@@ -32,5 +32,23 @@ module.exports = {
                     resolve(result)
             });
         });
+    },
+    update: (user,id) => {
+        return new Promise((resolve,reject)=>{
+            let dataToUpdate = "";
+            let array = [];
+            Object.keys(user).forEach(key=>{
+                if(dataToUpdate != "")dataToUpdate+=",";
+                dataToUpdate += key+" = ? ";
+                array.push(user[key]);
+            });
+            array.push(id);
+            dbConnection().query('UPDATE users SET '+dataToUpdate + ' WHERE id = ?' , array ,(err,results,fields)=>{
+                if(err) 
+                    resolve({error: "error on mysql", info: error}) 
+                else
+                    resolve(results)
+            });
+        })
     }
 }
