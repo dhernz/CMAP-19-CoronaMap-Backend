@@ -7,8 +7,9 @@ var jwtCheck = jwtMiddleware(process.env.JWT_SECCRET)
 module.exports = app => {
 
   app.post('/user', async (req, res) => {
-    const { name, address, identity, device_id, phone, country_code, mac_address } = req.body;
-    var userData = { name, address, identity, device_id, phone, country_code, mac_address, ip_address: req.ipInfo.ip }
+    const { name, address, identity, gender, birthDate, device_id, phone, country_code, mac_address } = req.body;
+    console.log(req.body)
+    var userData = { name, address, identity, gender, birthdate : new Date(birthDate), device_id, phone, country_code, mac_address, ip_address: req.ipInfo.ip }
     let user = await users.getUserByIdentity(identity);
     if(user.error == "user_not_found") {
       let cantUsersByDevice = await users.countUsersByDevice(device_id);
@@ -23,7 +24,10 @@ module.exports = app => {
           res.status(200).send({token})
         }
       }
-    }else{
+    } else if(user.error == "error_on_mysql"){
+      console.log(user)
+      res.status(500).send(user)
+    } else {
       let token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECCRET);
       res.status(200).send({token})
     }
