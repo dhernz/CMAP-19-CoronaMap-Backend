@@ -8,7 +8,7 @@ module.exports = app => {
     if(!statusAll.error) {
       res.status(200).send(statusAll)
     }else{
-      res.status(500).send(error).code(500)
+      res.status(500).send(statusAll)
     }
   });
 };

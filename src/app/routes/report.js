@@ -30,4 +30,12 @@ module.exports = app => {
       }
     }
   });
+  app.get('/report', jwtCheck, async (req, res) => {
+    let reportResult = await reports.getByUserId(parseInt(req.tokenData.id))
+    if(!reportResult.error) {
+      res.status(200).send(reportResult)
+    }else{
+      res.status(404).send(reportResult)
+    }
+  });
 };

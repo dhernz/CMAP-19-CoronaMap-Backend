@@ -8,7 +8,7 @@ module.exports = app => {
     if(!symptomsList.error) {
       res.status(200).send(symptomsList)
     }else{
-      res.status(500).send(error)
+      res.status(500).send(symptomsList)
     }
   });
 };
