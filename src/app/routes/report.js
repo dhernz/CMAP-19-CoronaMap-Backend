@@ -35,7 +35,13 @@ module.exports = app => {
     if(!reportResult.error) {
       res.status(200).send(reportResult)
     }else{
-      res.status(404).send(reportResult)
+      res.status(200).send(reportResult)
     }
+  });
+  app.get('/report/:latitude/:longitude', jwtCheck, async (req, res) => {
+    let latitude = parseFloat(req.params.latitude);
+    let longitude = parseFloat(req.params.longitude);
+    let reportResult = await reports.getByGeolocation(latitude,longitude)
+    res.status(200).send(reportResult)    
   });
 };
