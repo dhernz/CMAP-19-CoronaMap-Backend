@@ -5,7 +5,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             dbConnection().query('SELECT * FROM users WHERE identity = ? ', identity, (err, result) => {
                 if(err)
-                    resolve({error: "error_on_mysql", info: error}) 
+                    resolve({error: "error_on_mysql", info: err}) 
                 else if(result.length > 0) 
                     resolve(result[0])
                 else
@@ -17,7 +17,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             dbConnection().query('SELECT * FROM users WHERE device_id = ? ', device_id, (err, result) => {
                 if(err)
-                    resolve({error: "error_on_mysql", info: error}) 
+                    resolve({error: "error_on_mysql", info: err}) 
                 else
                     resolve(result.length)            
             });
@@ -27,7 +27,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             dbConnection().query('INSERT INTO users SET ? ',userData , (err, result) => {
                 if(err) 
-                    resolve({error: "error on mysql", info: error}) 
+                    resolve({error: "error on mysql", info: err}) 
                 else
                     resolve(result)
             });
@@ -45,7 +45,7 @@ module.exports = {
             array.push(id);
             dbConnection().query('UPDATE users SET '+dataToUpdate + ' WHERE id = ?' , array ,(err,results,fields)=>{
                 if(err) 
-                    resolve({error: "error on mysql", info: error}) 
+                    resolve({error: "error on mysql", info: err}) 
                 else
                     resolve(results)
             });

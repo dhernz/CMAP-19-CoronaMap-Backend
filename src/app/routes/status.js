@@ -6,9 +6,9 @@ module.exports = app => {
   app.get('/status', async (req, res) => {
     let statusAll = await statusList.getAll()
     if(!statusAll.error) {
-      res.send(statusAll)
+      res.status(200).send(statusAll)
     }else{
-      res.send(error).code(500)
+      res.status(500).send(error).code(500)
     }
   });
 };
