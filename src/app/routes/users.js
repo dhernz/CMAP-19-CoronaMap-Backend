@@ -14,7 +14,7 @@ module.exports = app => {
     if(user.error == "user_not_found") {
       let cantUsersByDevice = await users.countUsersByDevice(device_id);
       if(cantUsersByDevice > parseInt(process.env.CANT_USERS_BY_DEVICE))
-        res.status(302).send("limit of useres for device exceded")
+        res.status(200).send("limit of useres for device exceded")
       else{
         let result = await users.addUser(userData)
         if(result.error) res.send(result)
@@ -26,7 +26,7 @@ module.exports = app => {
       }
     } else if(user.error == "error_on_mysql"){
       console.log(user)
-      res.status(500).send(user)
+      res.status(200).send(user)
     } else {
       let token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECCRET);
       res.status(200).send({token})
