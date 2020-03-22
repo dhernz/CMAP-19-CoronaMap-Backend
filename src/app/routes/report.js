@@ -9,7 +9,7 @@ module.exports = app => {
   app.post('/report', jwtCheck, async (req, res) => {
     const { latitude, longitude, status_id } = req.body;
     console.log(req.tokenData)
-    var reportData = { latitude, longitude, status_id, user_id: req.tokenData.id, date: new Date() }
+    var reportData = { latitude, longitude, status_id, user_id: req.tokenData.id, date: new Date(), last_update: Date.now() }
     let currentReport = await reports.getByUserId(parseInt(req.tokenData.id));
     console.log(currentReport);
     if(currentReport.error == "report_not_found") {
@@ -22,11 +22,18 @@ module.exports = app => {
       }
     }else{
       console.log("report found")
-      let result = await reports.update(reportData,currentReport.id)
-      if(result.error) res.send(result)
-      else {      
-        console.log("success ==> ",result)  
-        res.status(200).send({reportId:currentReport.id})
+      let millisecondsToLastUpdate = currentReport.last_update
+      let hoursToLastUpdate = (((Date.now() - millisecondsToLastUpdate) / 1000) / 60) / 60
+      console.log(hoursToLastUpdate)
+      if( parseInt(hoursToLastUpdate) > parseInt(process.env.LIMIT_HOUR_FOR_UPDATE)){
+        res.status(200).send({error:"Espera "+hoursToLastUpdate+" horas para actualizar tu estado."})
+      }else{
+        let result = await reports.update(reportData,currentReport.id)
+        if(result.error) res.send(result)
+        else {      
+          console.log("success ==> ",result)  
+          res.status(200).send({reportId:currentReport.id})
+        }
       }
     }
   });
