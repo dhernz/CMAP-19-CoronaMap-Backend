@@ -30,14 +30,23 @@ module.exports = app => {
       }
     }
   });
-  app.get('/report', jwtCheck, async (req, res) => {
-    let reportResult = await reports.getByUserId(parseInt(req.tokenData.id))
-    if(!reportResult.error) {
-      res.status(200).send(reportResult)
-    }else{
-      res.status(200).send(reportResult)
+
+  app.post('/updateReport', jwtCheck, async (req, res) => {
+    const { sick_days, who_been, address, reportId } = req.body;
+    console.log(req.tokenData)
+    var reportData = { sick_days, who_been, address }
+    let result = await reports.update(reportData,parseInt(reportId))
+    if(result.error) res.send(result)
+    else {      
+      res.status(200).send({reportId:currentReport.id})
     }
   });
+  
+  app.get('/report', jwtCheck, async (req, res) => {
+    let reportResult = await reports.getByUserId(parseInt(req.tokenData.id))
+      res.status(200).send(reportResult)
+  });
+  
   app.get('/report/:latitude/:longitude', jwtCheck, async (req, res) => {
     let latitude = parseFloat(req.params.latitude);
     let longitude = parseFloat(req.params.longitude);
