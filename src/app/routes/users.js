@@ -14,7 +14,7 @@ module.exports = app => {
     if(user.error == "user_not_found") {
       let cantUsersByDevice = await users.countUsersByDevice(device_id);
       if(cantUsersByDevice > parseInt(process.env.CANT_USERS_BY_DEVICE))
-        res.status(200).send({error:"limit of useres for device exceded"})
+        res.status(200).send({error:"limit of users for device exceded"})
       else{
         let result = await users.addUser(userData)
         if(result.error) res.send(result)
@@ -36,14 +36,13 @@ module.exports = app => {
   app.post('/user/diagnosed',jwtCheck, async (req, res) => {
     const { diagnosed } = req.body;
     let result = await users.update({diagnosed: parseInt(diagnosed)},req.tokenData.id)
-    if(result.error) res.status(500).send(result)
-    else res.status(200).send(result)
+    res.status(200).send(result)
   });
 
   app.post('/user/symptom',jwtCheck, async (req, res) => {
     const { symptom_id } = req.body;
     let new_symptom_x_users = await symptoms_x_users.add({symptom_id,user_id:req.tokenData.id});
-    if(new_symptom_x_users.error) res.status(500).send(new_symptom_x_users)
-    else res.status(200).send(new_symptom_x_users)
+    res.status(200).send(new_symptom_x_users)
   });
+
 };
