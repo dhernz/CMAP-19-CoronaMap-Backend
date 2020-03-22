@@ -38,7 +38,7 @@ module.exports = app => {
     let result = await reports.update(reportData,parseInt(reportId))
     if(result.error) res.send(result)
     else {      
-      res.status(200).send({reportId:currentReport.id})
+      res.status(200).send({reportId:reportId})
     }
   });
   
@@ -46,7 +46,7 @@ module.exports = app => {
     let reportResult = await reports.getByUserId(parseInt(req.tokenData.id))
       res.status(200).send(reportResult)
   });
-  
+
   app.get('/report/:latitude/:longitude', jwtCheck, async (req, res) => {
     let latitude = parseFloat(req.params.latitude);
     let longitude = parseFloat(req.params.longitude);
