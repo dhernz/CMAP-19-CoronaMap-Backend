@@ -25,8 +25,8 @@ module.exports = app => {
       let millisecondsToLastUpdate = currentReport.last_update
       let hoursToLastUpdate = (((Date.now() - millisecondsToLastUpdate) / 1000) / 60) / 60
       console.log(hoursToLastUpdate)
-      if( parseInt(hoursToLastUpdate) > parseInt(process.env.LIMIT_HOUR_FOR_UPDATE)){
-        res.status(200).send({error:"Espera "+hoursToLastUpdate+" horas para actualizar tu estado."})
+      if( parseInt(hoursToLastUpdate) < parseInt(process.env.LIMIT_HOUR_FOR_UPDATE)){
+        res.status(200).send({error:"Espera "+parseInt(parseInt(process.env.LIMIT_HOUR_FOR_UPDATE) - hoursToLastUpdate)+" horas para actualizar tu estado."})
       }else{
         let result = await reports.update(reportData,currentReport.id)
         if(result.error) res.send(result)
