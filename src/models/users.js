@@ -3,7 +3,7 @@ const dbConnection = require('../config/dbConnection');
 module.exports = {
     getUserByIdentity:(identity) => {
         return new Promise((resolve,reject)=>{
-            dbConnection().query('SELECT * FROM users WHERE identity = ? ', identity, (err, result) => {
+            dbConnection.query('SELECT * FROM users WHERE identity = ? ', identity, (err, result) => {
                 if(err)
                     resolve({error: "error_on_mysql", info: err}) 
                 else if(result.length > 0) 
@@ -15,7 +15,7 @@ module.exports = {
     },
     countUsersByDevice:(device_id) => {
         return new Promise((resolve,reject)=>{
-            dbConnection().query('SELECT * FROM users WHERE device_id = ? ', device_id, (err, result) => {
+            dbConnection.query('SELECT * FROM users WHERE device_id = ? ', device_id, (err, result) => {
                 if(err)
                     resolve({error: "error_on_mysql", info: err}) 
                 else
@@ -25,7 +25,7 @@ module.exports = {
     },
     addUser:(userData) => {
         return new Promise((resolve,reject)=>{
-            dbConnection().query('INSERT INTO users SET ? ',userData , (err, result) => {
+            dbConnection.query('INSERT INTO users SET ? ',userData , (err, result) => {
                 if(err) 
                     resolve({error: "error on mysql", info: err}) 
                 else
@@ -43,7 +43,7 @@ module.exports = {
                 array.push(user[key]);
             });
             array.push(id);
-            dbConnection().query('UPDATE users SET '+dataToUpdate + ' WHERE id = ?' , array ,(err,results,fields)=>{
+            dbConnection.query('UPDATE users SET '+dataToUpdate + ' WHERE id = ?' , array ,(err,results,fields)=>{
                 if(err) 
                     resolve({error: "error on mysql", info: err}) 
                 else
