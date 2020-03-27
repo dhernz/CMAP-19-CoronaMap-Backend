@@ -34,7 +34,7 @@ module.exports = app => {
     }
   });
 
-  app.post('/user', async (req, res) => {
+  app.post('/userSignin', async (req, res) => {
     const { identity } = req.body;
     console.log(req.body)
     let user = await users.getUserByIdentity(identity);
