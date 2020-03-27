@@ -13,9 +13,31 @@ module.exports = {
             });
         })
     },
+    getUserByPhone:(phone) => {
+        return new Promise((resolve,reject)=>{
+            dbConnection.query('SELECT * FROM users WHERE phone = ? ', phone, (err, result) => {
+                if(err)
+                    resolve({error: "error_on_mysql", info: err}) 
+                else if(result.length > 0) 
+                    resolve(result[0])
+                else
+                    resolve({error:"user_not_found"})
+            });
+        })
+    },
     countUsersByDevice:(device_id) => {
         return new Promise((resolve,reject)=>{
             dbConnection.query('SELECT * FROM users WHERE device_id = ? ', device_id, (err, result) => {
+                if(err)
+                    resolve({error: "error_on_mysql", info: err}) 
+                else
+                    resolve(result.length)            
+            });
+        })
+    },
+    countUsersByIp:(ip_address) => {
+        return new Promise((resolve,reject)=>{
+            dbConnection.query('SELECT * FROM users WHERE ip_address = ? ', ip_address, (err, result) => {
                 if(err)
                     resolve({error: "error_on_mysql", info: err}) 
                 else
