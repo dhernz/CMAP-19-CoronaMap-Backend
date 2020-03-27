@@ -42,7 +42,7 @@ module.exports = app => {
       res.status(200).send(user)
     } else {
       let token = jwt.sign(JSON.parse(JSON.stringify(user)), process.env.JWT_SECCRET);
-      res.status(200).send({token})
+      res.status(200).send({token,name:user.name})
     }
   });
 
