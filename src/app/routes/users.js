@@ -34,7 +34,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/user', async (req, res) => {
+  app.post('/user', async (req, res) => {
     const { identity } = req.body;
     console.log(req.body)
     let user = await users.getUserByIdentity(identity);
