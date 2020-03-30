@@ -39,9 +39,9 @@ module.exports = app => {
   });
 
   app.post('/updateReport', jwtCheck, async (req, res) => {
-    const { sick_days, who_been, address, reportId } = req.body;
+    const { status_id, sick_days, who_been, address, reportId } = req.body;
     console.log(req.tokenData)
-    var reportData = { sick_days, who_been, address }
+    var reportData = { sick_days, who_been, address, status_id }
     let result = await reports.update(reportData,parseInt(reportId))
     if(result.error) res.send(result)
     else {      
