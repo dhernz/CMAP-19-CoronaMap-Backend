@@ -54,7 +54,7 @@ module.exports = app => {
       res.status(200).send(reportResult)
   });
 
-  app.get('/report/:latitude/:longitude', jwtCheck, async (req, res) => {
+  app.get('/report/:latitude/:longitude', async (req, res) => {
     let latitude = parseFloat(req.params.latitude);
     let longitude = parseFloat(req.params.longitude);
     let reportResult = await reports.getByGeolocation(latitude,longitude)
