@@ -3,6 +3,7 @@ const socket = require('./config/socket');
 require('dotenv').config({ path: '/var/env/.envreporting' })
 
 require('./app/routes/users')(app);
+require('./app/routes/adminUsers')(app);
 require('./app/routes/status')(app);
 require('./app/routes/conditions')(app);
 require('./app/routes/symptoms')(app);
